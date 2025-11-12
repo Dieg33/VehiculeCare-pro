@@ -1,73 +1,46 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const modal = document.getElementById("modalMantenimiento");
-    const cerrarModal = document.getElementById("cerrarModal");
-    const btnNuevo = document.getElementById("btnNuevo");
-    const form = document.getElementById("formMantenimiento");
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('mantenimientoModal');
+    const form = document.getElementById('mantenimientoForm');
+    const titulo = document.getElementById('modalTitle');
 
-    let editId = null;
-
-    // 🟢 Abrir modal para nuevo mantenimiento
-    btnNuevo.addEventListener("click", () => {
-        editId = null;
+    // Botón "+ Nuevo"
+    document.getElementById('nuevoBtn').addEventListener('click', function() {
+        titulo.textContent = 'Nuevo mantenimiento';
         form.reset();
-        document.getElementById("modalTitulo").textContent = "Nuevo Mantenimiento";
-        modal.style.display = "flex";
+        modal.style.display = 'block';
     });
 
-    // 🔴 Cerrar modal
-    cerrarModal.addEventListener("click", () => {
-        modal.style.display = "none";
-    });
+    // Botones "Editar"
+    document.querySelectorAll('.editarBtn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const vehiculo = this.getAttribute('data-vehiculo');
+            const fecha = this.getAttribute('data-fecha');
+            const tipo = this.getAttribute('data-tipo');
+            const estado = this.getAttribute('data-estado');
 
-    // 🔘 Cerrar modal al hacer clic fuera
-    window.addEventListener("click", (e) => {
-        if (e.target === modal) modal.style.display = "none";
-    });
+            titulo.textContent = 'Editar mantenimiento';
+            form.querySelector('[name="id"]').value = id;
+            form.querySelector('[name="vehiculo"]').value = vehiculo;
+            form.querySelector('[name="fechaIngreso"]').value = fecha;
+            form.querySelector('[name="tipoMantenimiento"]').value = tipo;
+            form.querySelector('[name="estado"]').value = estado;
 
-    // ✏️ Editar mantenimiento (abrir modal con datos)
-    document.querySelectorAll(".btn-edit").forEach(btn => {
-        btn.addEventListener("click", async (e) => {
-            e.preventDefault();
-            editId = btn.getAttribute("data-id");
-
-            const res = await fetch(`/mantenimientos/api/${editId}`);
-            if (!res.ok) {
-                alert("Error al obtener datos del mantenimiento");
-                return;
-            }
-
-            const data = await res.json();
-
-            document.getElementById("vehiculo").value = data.vehiculo;
-            document.getElementById("tipo").value = data.tipoMantenimiento;
-            document.getElementById("fecha").value = data.fecha;
-            document.getElementById("estado").value = data.estado;
-
-            document.getElementById("modalTitulo").textContent = "Editar Mantenimiento";
-            modal.style.display = "flex";
+            modal.style.display = 'block';
         });
     });
 
-    // 💾 Guardar o actualizar mantenimiento
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const formData = new FormData(form);
-        const mantenimiento = Object.fromEntries(formData.entries());
+    // Botón "Cancelar"
+    document.getElementById('cancelarBtn').addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
 
-        if (editId) mantenimiento.id = editId;
-
-        const res = await fetch("/mantenimientos/guardar", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(mantenimiento)
-        });
-
-        if (res.ok) {
-            modal.style.display = "none";
-            window.location.reload();
-        } else {
-            alert("Error al guardar mantenimiento");
+    // Cerrar modal al hacer clic fuera
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
         }
     });
 });
+
 
