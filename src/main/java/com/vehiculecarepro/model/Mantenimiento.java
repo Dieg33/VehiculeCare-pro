@@ -1,10 +1,10 @@
 package com.vehiculecarepro.model;
+
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "mantenimiento")
-
 public class Mantenimiento {
 
     @Id
@@ -62,3 +62,4 @@ public class Mantenimiento {
         this.estado = estado;
     }
 }
+
