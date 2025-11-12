@@ -207,3 +207,137 @@ body {
 .hidden {
     display: none !important;
 }
+.table-container {
+    background-color: var(--color-blanco);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.table-container h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.table-container .btn-nuevo {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    border: none;
+    border-radius: 2rem;
+    padding: 0.5rem 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.table-container .btn-nuevo:hover {
+    background-color: #1e40af;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+.table-container th,
+.table-container td {
+    border: 1px solid var(--color-borde);
+    padding: 0.75rem;
+    text-align: left;
+    font-size: 0.95rem;
+}
+.table-container th {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+}
+.table-container td {
+    background-color: var(--color-fondo);
+}
+
+.btn-accion {
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radio-borde);
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+}
+.btn-editar {
+    background-color: #e0e7ff;
+    color: #1e3a8a;
+}
+.btn-editar:hover {
+    background-color: #c7d2fe;
+}
+.btn-eliminar {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+.btn-eliminar:hover {
+    background-color: #fecaca;
+}
+
+/* --- FORMULARIO DE MANTENIMIENTO --- */
+.form-container {
+    background-color: var(--color-blanco);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    padding: 2rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.form-container h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+.form-group {
+    margin-bottom: 1rem;
+}
+.form-group label {
+    display: block;
+    font-weight: 500;
+    color: var(--color-texto-secundario);
+    margin-bottom: 0.5rem;
+}
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    font-size: 1rem;
+}
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+.btn-guardar {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radio-borde);
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-guardar:hover {
+    background-color: #1e40af;
+}
+.btn-cancelar {
+    background-color: var(--color-blanco);
+    color: var(--color-texto-secundario);
+    border: 1px solid var(--color-borde);
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radio-borde);
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-cancelar:hover {
+    background-color: var(--color-fondo);
+}

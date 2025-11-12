@@ -17,12 +17,6 @@ public class VehiculeCareProApplication {
         SpringApplication.run(VehiculeCareProApplication.class, args);
 
     }
-    @Bean
-    CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        return args -> {
-            userRepository.save(new User("userdb", passwordEncoder.encode("dbpass"), "USER"));
-            userRepository.save(new User("admindb", passwordEncoder.encode("dbadminpass"), "ADMIN"));
-        };
-    }
+
 
 }
