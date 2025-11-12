@@ -1,6 +1,7 @@
 package com.vehiculecarepro;
 
 import com.vehiculecarepro.model.User;
+import com.vehiculecarepro.service.UserService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,5 +19,12 @@ public class VehiculeCareProApplication {
 
     }
 
-
+    @Bean
+    CommandLineRunner seed(UserService users) {
+        return args -> {
+            var u = users.upsert("admin", "admin1234", "ADMIN");
+            System.out.println(">>> SEED admin id=" + u.getId() + " role=" + u.getRole());
+        };
+    }
 }
+
