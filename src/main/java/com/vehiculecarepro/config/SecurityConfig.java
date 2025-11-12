@@ -3,6 +3,7 @@ package com.vehiculecarepro.config;
 import com.vehiculecarepro.service.JpaUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,24 +26,29 @@ public class SecurityConfig {
     }
 
     @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(jpaUserDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authorize -> authorize
-                        // Permitimos el acceso a los archivos estáticos (CSS, JS) sin autenticación
-                        .requestMatchers("/css/**", "/js/**").permitAll()
-                        // Todas las demás peticiones requieren autenticación
+        http.authenticationProvider(authenticationProvider())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/register", "/login", "/error").permitAll()
                         .anyRequest().authenticated()
                 )
-                .userDetailsService(jpaUserDetailsService)
-                // Configuramos nuestro formulario de login personalizado
                 .formLogin(form -> form
-                        .loginPage("/login") // La URL de nuestra página de login
-                        .defaultSuccessUrl("/dashboard", true) // A dónde ir después de un login exitoso
-                        .permitAll() // Permitimos el acceso a la página de login a todos
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/dashboard", true)
+                        .permitAll()
                 )
-                // Configuramos la funcionalidad de logout
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout") // A dónde ir después de un logout exitoso
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 );
 
