@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/mantenimientos")
-
 public class MantenimientoController {
 
     private final MantenimientoRepository mantenimientoRepository;
@@ -52,5 +51,5 @@ public class MantenimientoController {
         mantenimientoRepository.deleteById(id);
         return "redirect:/mantenimientos";
     }
-
 }
+
