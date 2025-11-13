@@ -15,6 +15,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AuthController {
 
     private final UserService users;
+    @GetMapping("/login")
+    public String showLoginPage() {
+        // nombre de la vista: src/main/resources/templates/login.html
+        return "login";
+    }
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {

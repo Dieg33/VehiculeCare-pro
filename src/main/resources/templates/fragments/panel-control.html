@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+
+    <section class="page-header">
+        <h1>Panel de Control</h1>
+        <p>Sistema de Control y Seguridad de Mantenimiento Vehicular</p>
+    </section>
+
+    <!-- Tarjetas de resumen -->
+    <section class="dashboard-grid">
+        <div class="card card-stat">
+            <h2>Vehículos totales</h2>
+            <p class="stat-number" th:text="${totalVehiculos}">0</p>
+        </div>
+
+        <div class="card card-stat">
+            <h2>Vehículos activos</h2>
+            <p class="stat-number" th:text="${vehiculosActivos}">0</p>
+        </div>
+
+        <div class="card card-stat">
+            <h2>En taller</h2>
+            <p class="stat-number" th:text="${vehiculosTaller}">0</p>
+        </div>
+
+        <div class="card card-stat">
+            <h2>Fuera de servicio</h2>
+            <p class="stat-number" th:text="${vehiculosFueraServicio}">0</p>
+        </div>
+    </section>
+
+    <!-- Mantenimientos -->
+    <section class="dashboard-section">
+        <h2>Mantenimientos</h2>
+
+        <div class="dashboard-grid">
+            <div class="card card-stat">
+                <h3>Total de mantenimientos</h3>
+                <p class="stat-number" th:text="${totalMantenimientos}">0</p>
+            </div>
+            <div class="card card-stat">
+                <h3>Mantenimientos hoy</h3>
+                <p class="stat-number" th:text="${mantenimientosHoy}">0</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top:2rem;">Últimos ingresos a taller</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Fecha ingreso</th>
+                <th>Vehículo</th>
+                <th>Tipo</th>
+                <th>Estado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="m : ${mantenimientosRecientes}">
+                <td th:text="${m.fechaIngreso}">2025-11-12</td>
+                <td th:text="${m.vehiculo.placa}">P001-123</td>
+                <td th:text="${m.tipoMantenimiento}">Preventivo</td>
+                <td th:text="${m.estado}">EN_PROCESO</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(mantenimientosRecientes)}">
+                <td colspan="4" style="text-align:center;">No hay mantenimientos registrados.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</div>
+</body>
+</html>

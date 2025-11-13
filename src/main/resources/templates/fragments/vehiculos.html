@@ -1,0 +1,152 @@
+<div th:fragment="content">
+    <!-- HEADER DEL MÓDULO -->
+    <header class="main-header">
+        <div class="header-title">
+            <h1>Flota de Vehículos</h1>
+            <p>Sistema de Control y Seguridad de Mantenimiento Vehicular</p>
+        </div>
+
+        <div class="header-actions">
+            <!-- Buscador -->
+            <form th:action="@{/vehiculos}" method="get" style="display:flex;gap:.5rem;">
+                <input type="search"
+                       class="search-bar"
+                       name="q"
+                       th:value="${q}"
+                       placeholder="Buscar por placa, marca, modelo...">
+                <button class="btn btn-secondary" type="submit">Filtrar</button>
+            </form>
+
+            <!-- Botón que abre el modal en modo "nuevo" -->
+            <button type="button" class="btn btn-primary" id="btnNuevoVehiculo">
+                + Nuevo
+            </button>
+        </div>
+    </header>
+
+    <!-- CUERPO -->
+    <section class="content-body">
+        <div class="dev-section">
+
+            <!-- Mensajes flash -->
+            <div th:if="${ok}" class="alert alert-success" th:text="${ok}"></div>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+            <!-- Tabla de vehículos -->
+            <table class="vc-table">
+                <thead>
+                <tr>
+                    <th>Placa</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Año</th>
+                    <th>Tipo</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="v : ${vehiculos}"
+                    th:data-id="${v.id}"
+                    th:data-placa="${v.placa}"
+                    th:data-marca="${v.marca}"
+                    th:data-modelo="${v.modelo}"
+                    th:data-anio="${v.anio}"
+                    th:data-tipo="${v.tipo}"
+                    th:data-estado="${v.estado}">
+                    <td th:text="${v.placa}">P000-000</td>
+                    <td th:text="${v.marca}">Toyota</td>
+                    <td th:text="${v.modelo}">Corolla</td>
+                    <td th:text="${v.anio}">2020</td>
+                    <td th:text="${v.tipo}">Sedán</td>
+                    <td th:text="${v.estado}">ACTIVO</td>
+                    <td>
+                        <!-- Editar: botón que solo abre el modal -->
+                        <button type="button"
+                                class="btn-accion btn-editar btn-edit-vehiculo">
+                            Editar
+                        </button>
+
+                        <!-- Eliminar: form POST con confirm -->
+                        <form th:action="@{'/vehiculos/eliminar/' + ${v.id}}"
+                              method="post"
+                              class="form-eliminar-vehiculo"
+                              style="display:inline;">
+                            <input type="hidden"
+                                   th:name="${_csrf.parameterName}"
+                                   th:value="${_csrf.token}">
+                            <button type="submit"
+                                    class="btn-accion btn-eliminar">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(vehiculos)}">
+                    <td colspan="7" style="text-align:center;">No hay vehículos registrados.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- MODAL CREAR/EDITAR VEHÍCULO -->
+    <div id="vehiculoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="vehiculoModalClose">&times;</span>
+            <h2 id="vehiculoModalTitle">Nuevo vehículo</h2>
+
+            <form id="vehiculoForm"
+                  th:action="@{/vehiculos/guardar}"
+                  method="post">
+
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <input type="hidden" name="id" id="vehiculoId">
+
+                <!-- CAMPOS -->
+                <label for="placa">Placa</label>
+                <input type="text" id="placa" name="placa" required maxlength="20">
+
+                <label for="marca">Marca</label>
+                <input type="text" id="marca" name="marca" required maxlength="50">
+
+                <label for="modelo">Modelo</label>
+                <input type="text" id="modelo" name="modelo" required maxlength="50">
+
+                <label for="anio">Año</label>
+                <input type="number" id="anio" name="anio" required min="1900" max="2100">
+
+                <label for="tipo">Tipo</label>
+                <input type="text" id="tipo" name="tipo" required maxlength="30"
+                       placeholder="Sedán, SUV, Pickup...">
+
+                <label for="estado">Estado</label>
+                <select id="estado" name="estado" required
+                        style="width:100%;padding:10px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box;">
+                    <option value="ACTIVO">ACTIVO</option>
+                    <option value="EN_TALLER">EN TALLER</option>
+                    <option value="FUERA_DE_SERVICIO">FUERA DE SERVICIO</option>
+                </select>
+
+                <!-- BOTONES -->
+                <div style="margin-top: 20px; display:flex; gap:10px; justify-content:flex-end;">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            id="vehiculoModalCancel">
+                        Cancelar
+                    </button>
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JS específico del módulo -->
+    <script th:src="@{/js/vehiculos.js}"></script>
+</div>

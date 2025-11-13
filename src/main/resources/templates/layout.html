@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle} ?: 'Dashboard - VehicleCare Pro'">
+        Dashboard - VehicleCare Pro
+    </title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            VehicleCare Pro
+        </div>
+
+        <ul class="sidebar-nav">
+            <li>
+                <a th:href="@{/panel}"
+                   th:classappend="${activeMenu} == 'panel' ? ' active' : ''">
+                    Panel de Control
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/dashboard}"
+                   th:classappend="${activeMenu} == 'vehiculos' ? ' active' : ''">
+                    Flota de Vehículos
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/mantenimientos}"
+                   th:classappend="${activeMenu} == 'mantenimientos' ? ' active' : ''">
+                    Mantenimiento
+                </a>
+            </li>
+
+            <li><a href="#">Órdenes de Trabajo</a></li>
+            <li><a href="#">Inventario</a></li>
+            <li><a href="#">Seguridad</a></li>
+            <li><a href="#">Reportes</a></li>
+            <li><a href="#">Personal</a></li>
+        </ul>
+
+        <div class="sidebar-footer" style="margin-top:auto;padding-top:1rem;border-top:1px solid #e2e8f0;">
+            <p style="margin-bottom:.5rem;color:#64748b;">
+                Usuario: <strong th:text="${username}">nombre.usuario</strong>
+            </p>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-secondary" style="width:100%;">Cerrar Sesión</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main-content"
+          th:replace="~{fragments/vehiculos :: content}">
+    </main>
+
+</div>
+</body>
+</html>
