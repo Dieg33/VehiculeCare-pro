@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Proveedores - VehicleCare Pro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="dashboard-container">
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            VehicleCare Pro
+        </div>
+        <ul class="sidebar-nav">
+            <li><a th:href="@{/dashboard}">
+                Panel de Control
+            </a></li>
+            <li><a th:href="@{/dashboard}">
+                Flota de Vehículos
+            </a></li>
+            <li><a th:href="@{/mantenimientos}">
+                Mantenimiento
+            </a></li>
+
+            <li><a th:href="@{/proveedores}" class="active">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                Proveedores
+            </a></li>
+
+            <li><a href="#">
+                Órdenes de Trabajo
+            </a></li>
+            <li><a href="#">
+                Personal
+            </a></li>
+        </ul>
+        <div class="sidebar-footer" style="margin-top: auto; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+            <p style="margin-bottom: 0.5rem; color: #64748b;">
+                Usuario: <strong th:text="${username}">nombre.usuario</strong>
+            </p>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-secondary" style="width: 100%;">Cerrar Sesión</button>
+            </form>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="main-header">
+            <div class="header-title">
+                <h1>Proveedores</h1>
+                <p>Sistema de Control de Proveedores</p>
+            </div>
+            <div class="header-actions">
+                <input type="search" placeholder="Buscar proveedores..." class="search-bar">
+                <button class="btn btn-secondary">Filtrar</button>
+                <a th:href="@{/proveedores/nuevo}" class="btn btn-primary">+ Nuevo</a>
+            </div>
+        </header>
+
+        <section class="content-body">
+            <div class="dev-section">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Empresa</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                        <th>Dirección</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="p : ${proveedores}">
+                        <td th:text="${p.nombre}">Nombre</td>
+                        <td th:text="${p.empresa}">Empresa</td>
+                        <td th:text="${p.telefono}">Teléfono</td>
+                        <td th:text="${p.correo}">Correo</td>
+                        <td th:text="${p.direccion}">Dirección</td>
+                        <td>
+                            <a th:href="@{'/proveedores/editar/' + ${p.id}}">Editar</a>
+                            <a th:href="@{'/proveedores/eliminar/' + ${p.id}}"
+                               onclick="return confirm('¿Seguro que deseas eliminar este proveedor?');">Eliminar</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
